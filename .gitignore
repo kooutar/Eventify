@@ -17,7 +17,13 @@ target/
 .idea
 *.iws
 *.iml
-*.ipr
+
+
+# =======================
+# Spring Boot
+# =======================
+# Local .env file for DB configs (DO NOT PUSH)
+.env
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,4 +37,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### .env File ###
+/src/main/resources/.env
 
