@@ -28,5 +28,7 @@ public class Event {
 
     private Integer capacity;
 
-    private Long organizerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizer_id")
+    private User organizer;
 }
