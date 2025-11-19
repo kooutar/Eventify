@@ -9,11 +9,9 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface EventMapper {
 
-    EventMapper INSTANCE = Mappers.getMapper(EventMapper.class);
-
     // Entity → DTO
     @Mapping(source = "organizer.id", target = "organizerId")
-    @Mapping(source = "organizer.username", target = "organizerUsername")
+    @Mapping(source = "organizer.name", target = "organizerName")
     EventDTO toDTO(Event event);
 
     // DTO → Entity

@@ -6,20 +6,24 @@ import com.kaoutar.Eventify.model.Event;
 import com.kaoutar.Eventify.model.User;
 import com.kaoutar.Eventify.repository.EventRepository;
 import com.kaoutar.Eventify.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
+@RequiredArgsConstructor
 public class EventService {
-    @Autowired
-    private EventRepository eventRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final EventRepository eventRepository;
 
-    @Autowired
-    private EventMapper eventMapper;
+
+    private final UserRepository userRepository;
+
+
+    private final EventMapper eventMapper;
 
     // Créer un événement
     public EventDTO createEvent(EventDTO dto) {

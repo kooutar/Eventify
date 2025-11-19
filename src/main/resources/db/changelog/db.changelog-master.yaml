@@ -1,5 +1,5 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/01-create-table-user.yaml
+      file: db/changelog/01-create-table-users.yaml
   - include:
-      file: db/changelog/01-create-table-event.yaml
+      file: db/changelog/01-create-table-events.yaml
