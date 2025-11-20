@@ -15,25 +15,25 @@ public class UserController {
 
     private final UserService userService;
 
-    // ➤ Créer un utilisateur
+    //  Créer un utilisateur
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.createUser(userDTO));
     }
 
-    // ➤ Récupérer tous les utilisateurs
+    // Récupérer tous les utilisateurs
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    // ➤ Récupérer un utilisateur par ID
+    // Récupérer un utilisateur par ID
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    // ➤ Mettre à jour un utilisateur
+    // Mettre à jour un utilisateur
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(
             @PathVariable Long id,
@@ -42,7 +42,7 @@ public class UserController {
         return ResponseEntity.ok(userService.updateUser(id, userDTO));
     }
 
-    // ➤ Supprimer un utilisateur
+    //  Supprimer un utilisateur
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
