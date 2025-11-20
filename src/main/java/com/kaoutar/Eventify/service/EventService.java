@@ -1,6 +1,7 @@
 package com.kaoutar.Eventify.service;
 
 import com.kaoutar.Eventify.dto.EventDTO;
+import com.kaoutar.Eventify.exception.EventNotFoundException;
 import com.kaoutar.Eventify.mapper.EventMapper;
 import com.kaoutar.Eventify.model.Event;
 import com.kaoutar.Eventify.model.User;
@@ -48,14 +49,14 @@ public class EventService {
     // Lire un événement par ID
     public EventDTO getEventById(Long id) {
         Event event = eventRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Event not found"));
+                .orElseThrow(() ->   new EventNotFoundException("Event not found with id: " + id));
         return eventMapper.toDTO(event);
     }
 
     // Mettre à jour un événement
     public EventDTO updateEvent(Long id, EventDTO dto) {
         Event existing = eventRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Event not found"));
+                .orElseThrow(() -> new EventNotFoundException("Event not found with id: " + id));
 
         existing.setTitle(dto.getTitle());
         existing.setDescription(dto.getDescription());
@@ -77,7 +78,7 @@ public class EventService {
     // Supprimer un événement
     public void deleteEvent(Long id) {
         Event event = eventRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Event not found"));
+                .orElseThrow(() ->  new EventNotFoundException("Event not found with id: " + id));
         eventRepository.delete(event);
     }
 }
