@@ -49,7 +49,7 @@ public class SecurityConfig {
                 )
 
                 // Nouvelle syntaxe httpBasic()
-                .httpBasic(basic -> {}) // 👈 plus de dépréciation
+                .httpBasic(basic -> {}) // plus de dépréciation
 
                 // Custom authentication provider
                 .authenticationProvider(customAuthenticationProvider);
