@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/01-create-table-users.yaml
   - include:
       file: db/changelog/01-create-table-events.yaml
+  - include:
+      file: db/changelog/01-create-table-registration.yaml
