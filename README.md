@@ -36,7 +36,7 @@ Ce projet est sécurisé avec **Spring Security** et utilise l’**authentificat
 - Spring Security
 - Spring Data JPA
 - Hibernate
-- H2/MySQL (configurable)
+- mysql et PgSQL
 - Maven
 - BCryptPasswordEncoder pour le chiffrement des mots de passe
 
