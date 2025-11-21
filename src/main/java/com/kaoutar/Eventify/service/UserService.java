@@ -7,6 +7,7 @@ import com.kaoutar.Eventify.model.User;
 import com.kaoutar.Eventify.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     // Créer un utilisateur
     public UserDTO createUser(UserDTO userDTO) {
@@ -28,6 +30,10 @@ public class UserService {
         }
 
         User user = userMapper.toEntity(userDTO);
+
+        // Encoder le mot de passe
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+
         User savedUser = userRepository.save(user);
         return userMapper.toDTO(savedUser);
     }
