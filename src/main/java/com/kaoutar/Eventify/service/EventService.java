@@ -10,6 +10,7 @@ import com.kaoutar.Eventify.repository.EventRepository;
 import com.kaoutar.Eventify.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,30 +58,58 @@ public class EventService {
 
     // Mettre à jour un événement
     public EventDTO updateEvent(Long id, EventDTO dto) {
+
+        // 1. Récupérer l'événement
         Event existing = eventRepository.findById(id)
                 .orElseThrow(() -> new EventNotFoundException("Event not found with id: " + id));
 
+        // 2. Récupérer l'utilisateur connecté
+        User currentUser = userService.getCurrentUserEntity();
+
+        // 3. Vérifier que l'organisateur ou admin
+        boolean isOwner = existing.getOrganizer().getId().equals(currentUser.getId());
+        boolean isAdmin = currentUser.getRole().name().equals("ROLE_ADMIN");
+
+        if (!isOwner && !isAdmin) {
+            throw new AccessDeniedException("You are not allowed to modify this event");
+        }
+
+        // 4. Mettre à jour les champs autorisés
         existing.setTitle(dto.getTitle());
         existing.setDescription(dto.getDescription());
         existing.setLocation(dto.getLocation());
         existing.setDateTime(dto.getDateTime());
         existing.setCapacity(dto.getCapacity());
 
+        // ❗ 5. Importante : on ignore dto.getOrganizerId()
+        // Pour empêcher qu’un user change le propriétaire de l’event
 
-        if (dto.getOrganizerId() != null) {
-            User organizer = userRepository.findById(dto.getOrganizerId())
-                    .orElseThrow(() -> new RuntimeException("Organizer not found"));
-            existing.setOrganizer(organizer);
-        }
-
+        // 6. Sauvegarder
         existing = eventRepository.save(existing);
         return eventMapper.toDTO(existing);
     }
 
-    // Supprimer un événement
+
+
     public void deleteEvent(Long id) {
+
+        // 1. Récupérer l'événement
         Event event = eventRepository.findById(id)
-                .orElseThrow(() ->  new EventNotFoundException("Event not found with id: " + id));
+                .orElseThrow(() -> new EventNotFoundException("Event not found with id: " + id));
+
+        // 2. Récupérer l'utilisateur connecté
+        User currentUser = userService.getCurrentUserEntity();
+
+        // 3. Vérifier permissions
+        boolean isOwner = event.getOrganizer().getId().equals(currentUser.getId());
+        boolean isAdmin = currentUser.getRole().name().equals("ROLE_ADMIN");
+
+        if (!isOwner && !isAdmin) {
+            throw new AccessDeniedException("You are not allowed to delete this event");
+        }
+
+        // 4. Effacer l'événement
         eventRepository.delete(event);
     }
+
 }
