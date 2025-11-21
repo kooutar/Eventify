@@ -1,6 +1,7 @@
 package com.kaoutar.Eventify.service;
 
 import com.kaoutar.Eventify.dto.EventDTO;
+import com.kaoutar.Eventify.dto.UserDTO;
 import com.kaoutar.Eventify.exception.EventNotFoundException;
 import com.kaoutar.Eventify.mapper.EventMapper;
 import com.kaoutar.Eventify.model.Event;
@@ -23,13 +24,14 @@ public class EventService {
 
     private final UserRepository userRepository;
 
+    private  final  UserService userService;
+
 
     private final EventMapper eventMapper;
 
     // Créer un événement
     public EventDTO createEvent(EventDTO dto) {
-        User organizer = userRepository.findById(dto.getOrganizerId())
-                .orElseThrow(() -> new RuntimeException("Organizer not found"));
+        User organizer = userService.getCurrentUserEntity();
 
         Event event = eventMapper.toEntity(dto);
         event.setOrganizer(organizer);

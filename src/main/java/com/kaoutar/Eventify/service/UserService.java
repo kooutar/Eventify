@@ -91,4 +91,10 @@ public class UserService {
         return userMapper.toDTO(user);
     }
 
+    public User getCurrentUserEntity() {
+        UserDTO dto = getCurrentUserProfile(); // ton DTO actuel
+        return userRepository.findById(dto.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
 }
