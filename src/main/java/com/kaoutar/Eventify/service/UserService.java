@@ -6,6 +6,7 @@ import com.kaoutar.Eventify.mapper.UserMapper;
 import com.kaoutar.Eventify.model.User;
 import com.kaoutar.Eventify.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -74,4 +75,14 @@ public class UserService {
         }
         userRepository.deleteById(id);
     }
+    public UserDTO getCurrentUserProfile() {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+
+        return userMapper.toDTO(user);
+    }
+
 }
